@@ -1,0 +1,50 @@
+{
+  "services": {
+    "webserver": {
+      "working_dir": "/var/www/html",
+      "volumes": [
+        "./html:/var/www/html"
+      ],
+      "links": [
+        "mysql"
+      ],
+      "container_name": "kempasol-webserver",
+      "image": "frontend",
+      "ports": [
+        "80:80"
+      ]
+    },
+    "tomcat": {
+      "working_dir": "/usr/local/tomcat/webapps",
+      "volumes": [
+        "./tomcat/webapps:/usr/local/tomcat/webapps"
+      ],
+      "links": [
+        "mysql"
+      ],
+      "container_name": "kempasol-tomcat",
+      "image": "tomcat",
+      "ports": [
+        "8080:8080"
+      ]
+    },
+    "mysql": {
+      "environment": [
+        "MYSQL_ROOT_PASSWORD=OpenSpace",
+        "MYSQL_DATABASE=kemphasoldb",
+        "MYSQL_USER=root",
+        "MYSQL_PASSWORD=OpenSpace"
+      ],
+      "image": "mysql",
+      "ports": [
+        "3306:3306"
+      ],
+      "volumes": [
+        "./data:/var/lib/mysql",
+        "./db:/docker-entrypoint-initdb.d"
+      ],
+      "container_name": "kempasol-mysql"
+    }
+  },
+  "version": "3.1"
+}
